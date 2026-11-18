@@ -1,0 +1,54 @@
+
+com.blurized.estateflow
+│
+├── clients/
+├── pipeline/
+├── activities/
+├── followups/
+├── feedback/
+├── properties/
+├── reports/
+│
+└── platform/
+    ├── users/
+    │   ├── User.java
+    │   ├── UserRepository.java
+    │   └── Role.java
+    │
+    └── security/
+        │
+        ├── config/
+        │   ├── SecurityConfig.java
+        │   ├── PasswordConfig.java
+        │   └── JwtConfig.java
+        │
+        ├── controller/
+        │   └── AuthController.java
+        │
+        ├── service/
+        │   ├── AuthService.java
+        │   ├── UserService.java
+        │   └── JwtService.java
+        │
+        ├── repository/
+        │   └── UserRepository.java
+        │
+        ├── entity/
+        │   ├── User.java
+        │   └── Role.java
+        │
+        ├── dto/
+        │   ├── request/
+        │   │   ├── LoginRequest.java
+        │   │   ├── CreateUserRequest.java // todo registrationRes/Req only admin you can use this endpoint
+        │   │   └── RefreshTokenRequest.java
+        │   │
+        │   └── response/
+        │       ├── AuthResponse.java
+        │       └── UserResponse.java
+        │
+        ├── security/
+        │   └── CustomUserDetails.java
+        │
+        └── exception/
+            └── AuthException.java

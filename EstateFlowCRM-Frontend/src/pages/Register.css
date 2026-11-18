@@ -1,0 +1,7 @@
+/* Register page shares most styles with Login.css via the same class names */
+@import './Login.css';
+
+.register-card {
+  max-width: 480px;
+}
+
