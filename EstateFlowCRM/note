@@ -1,5 +1,9 @@
 
 com.blurized.estateflow
+├── common
+│   └── exceptions
+│       └── BusinessException.java
+│
 │
 ├── clients/
 ├── pipeline/
@@ -9,11 +13,14 @@ com.blurized.estateflow
 ├── properties/
 ├── reports/
 │
-└── platform/
-    ├── users/
-    │   ├── User.java
-    │   ├── UserRepository.java
-    │   └── Role.java
+└── platform
+    ├
+    ├── user
+    │   ├── entities
+    │   ├── repositories
+    │   └── exceptions
+    │       ├── UserAlreadyExistsException.java
+    │       └── InvalidRegistrationRoleException.java
     │
     └── security/
         │
@@ -30,17 +37,12 @@ com.blurized.estateflow
         │   ├── UserService.java
         │   └── JwtService.java
         │
-        ├── repository/
-        │   └── UserRepository.java
         │
-        ├── entity/
-        │   ├── User.java
-        │   └── Role.java
         │
         ├── dto/
         │   ├── request/
         │   │   ├── LoginRequest.java
-        │   │   ├── CreateUserRequest.java // todo registrationRes/Req only admin you can use this endpoint
+        │   │   ├── CreateUserRequest.java
         │   │   └── RefreshTokenRequest.java
         │   │
         │   └── response/
@@ -52,3 +54,5 @@ com.blurized.estateflow
         │
         └── exception/
             └── AuthException.java
+
+

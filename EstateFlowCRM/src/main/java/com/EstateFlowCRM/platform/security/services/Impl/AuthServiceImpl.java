@@ -9,6 +9,7 @@ import com.EstateFlowCRM.platform.security.services.AuthService;
 import com.EstateFlowCRM.platform.security.services.JwtService;
 import com.EstateFlowCRM.platform.user.entities.Role;
 import com.EstateFlowCRM.platform.user.entities.User;
+import com.EstateFlowCRM.platform.user.exceptions.UserAlreadyExistsException;
 import com.EstateFlowCRM.platform.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -72,10 +73,7 @@ public class AuthServiceImpl implements AuthService {
                 .toLowerCase(Locale.ROOT);
 
         if (userRepository.existsByEmail(email)) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "An account with this email already exists"
-            );
+            throw new UserAlreadyExistsException();
         }
 
         if (request.getRole() != Role.SALES_MANAGER
