@@ -5,14 +5,14 @@ import com.EstateFlowCRM.commons.exceptions.BusinessException;
 public class UserAlreadyExistsException extends BusinessException {
 
     public UserAlreadyExistsException(String message) {
-        super(message);
+        super("USER_ALREADY_EXISTS", message);
     }
 
     public UserAlreadyExistsException(String message, Throwable cause) {
-        super(message, cause);
+        super("USER_ALREADY_EXISTS", message, cause);
     }
 
     public UserAlreadyExistsException() {
-        super("User with this email already exists");
+        super("USER_ALREADY_EXISTS", "User with this email already exists");
     }
 }

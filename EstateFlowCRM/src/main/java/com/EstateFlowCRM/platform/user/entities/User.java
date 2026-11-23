@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(
         name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_users_email", columnNames = "email")
+                @UniqueConstraint(name = User.EMAIL_UNIQUE_CONSTRAINT, columnNames = "email")
         }
 )
 @Builder
@@ -22,6 +22,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class User {
 
+    public static final String EMAIL_UNIQUE_CONSTRAINT = "uk_users_email";
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -29,7 +31,7 @@ public class User {
     @Column(nullable = false, length = 100)
     private String fullName;
 
-    @Column(nullable = false, unique = true, length = 150)
+    @Column(nullable = false, length = 150)
     private String email;
 
     @Column(nullable = false)

@@ -1,6 +1,7 @@
 package com.EstateFlowCRM.platform.security.config;
 
 import com.EstateFlowCRM.platform.security.security.JwtAuthenticationFilter;
+import com.EstateFlowCRM.platform.security.security.ApiSecurityExceptionHandler;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
+    private final ApiSecurityExceptionHandler apiSecurityExceptionHandler;
 
     // Security Filter Chain
     @Bean
@@ -62,6 +64,11 @@ public class SecurityConfig {
 
                         // All Other Requests Require Authentication
                         .anyRequest().authenticated()
+                )
+
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(apiSecurityExceptionHandler) // لما Spring Security يحتاج AuthenticationEntryPoint، استخدم كائن apiSecurityExceptionHandler.
+                        .accessDeniedHandler(apiSecurityExceptionHandler) // لما Spring Security يحتاج AccessDeniedHandler، استخدم نفس الكائن.
                 )
 
                 // Stateless Session

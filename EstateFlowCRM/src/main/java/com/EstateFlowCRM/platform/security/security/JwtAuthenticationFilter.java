@@ -1,6 +1,7 @@
 package com.EstateFlowCRM.platform.security.security;
 
 import com.EstateFlowCRM.platform.security.services.JwtService;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -48,8 +50,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 3. Extract Username from JWT
         try {
             username = jwtService.extractUsername(jwt);
-        } catch (Exception exception) {
-            filterChain.doFilter(request, response);
+        } catch (JwtException | IllegalArgumentException exception) { // Multi-catch
+            filterChain.doFilter(request, response); // request can complete to another filters, because I don't depend on JWT
             return;
         }
 
@@ -58,8 +60,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().getAuthentication() == null) {
 
             // 5. Load User from Database
-            UserDetails userDetails =
-                    userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails;
+            try {
+                userDetails = userDetailsService.loadUserByUsername(username);
+            } catch (UsernameNotFoundException exception) {
+                SecurityContextHolder.clearContext();
+                filterChain.doFilter(request, response);
+                return;
+            }
 
             try {
                 // 6. Validate JWT
@@ -88,7 +96,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             .setAuthentication(authentication);
                 }
 
-            } catch (Exception exception) {
+            } catch (JwtException | IllegalArgumentException exception) {
                 SecurityContextHolder.clearContext();
             }
         }

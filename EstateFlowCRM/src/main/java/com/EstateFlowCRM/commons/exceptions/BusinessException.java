@@ -1,15 +1,20 @@
 package com.EstateFlowCRM.commons.exceptions;
 
-public abstract class BusinessException extends RuntimeException{
+public abstract class BusinessException extends RuntimeException {
 
+    private final String code;
 
-    protected BusinessException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    protected BusinessException(String message) {
+    protected BusinessException(String code, String message) {
         super(message);
+        this.code = code;
     }
 
+    protected BusinessException(String code, String message, Throwable cause) {
+        super(message, cause);
+        this.code = code;
+    }
 
+    public String getCode() {
+        return code;
+    }
 }
