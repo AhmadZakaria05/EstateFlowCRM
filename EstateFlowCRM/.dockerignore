@@ -1,0 +1,8 @@
+.git
+.idea
+.mvn
+src
+.env
+.env.*
+target/*
+!target/*.jar

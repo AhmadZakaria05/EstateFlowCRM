@@ -1,41 +1,53 @@
-services:
+name: estateflowcrm
 
+services:
   db:
     image: postgres:17
     container_name: estateflow-db
     restart: always
-
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-
     ports:
       - "5432:5432"
-
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   app:
-    build: .
+    build:
+      context: ./EstateFlowCRM
+      dockerfile: Dockerfile
     container_name: estateflow-app
     restart: always
-
     ports:
       - "8080:8080"
-
     env_file:
-      - .env
-
+      - ./EstateFlowCRM/.env
     depends_on:
       db:
         condition: service_healthy
+
+  frontend:
+    build:
+      context: ./EstateFlowCRM-Frontend
+      dockerfile: Dockerfile
+    container_name: estateflow-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      API_PROXY_TARGET: http://app:8080
+    volumes:
+      - ./EstateFlowCRM-Frontend:/app
+      - /app/node_modules
+    depends_on:
+      - app
 
 volumes:
   postgres_data:

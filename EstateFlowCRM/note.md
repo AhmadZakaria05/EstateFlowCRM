@@ -1,4 +1,12 @@
 
+
+The resen of this architecture is:
+Low Coupling between features, Maintainability, Separation of Concerns and Team Collaboration.
+
+Low Coupling تقليل الاعتمادية 
+Separation of Concerns فصل المسؤوليات
+
+
 com.blurized.estateflow
 ├── common
 │   └── exceptions
