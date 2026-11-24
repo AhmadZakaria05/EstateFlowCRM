@@ -5,7 +5,6 @@ import { authService } from '../services/api';
 import './Register.css';
 
 const ROLES = [
-  { value: 'OVERVIEW_ADMIN', label: 'Overview Admin' },
   { value: 'SALES_MANAGER', label: 'Sales Manager' },
   { value: 'SALES_AGENT', label: 'Sales Agent' },
 ];
